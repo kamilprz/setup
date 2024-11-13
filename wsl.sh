@@ -14,8 +14,10 @@ mkdir -p ~/src && cd ~/src
 [ -d "retina" ] && rm -rf retina
 # Clone my fork of retina
 git clone https://github.com/kamilprz/retina.git
+cd /retina
+git config --add commit.gpgsign true
 
-cd ..
+cd ../..
 
 ### Install Docker
 # Delete existing/conflicting packages
@@ -65,8 +67,10 @@ sudo apt-get install clang
 echo "##### Installing jq"
 sudo apt install jq
 
+echo ""
+
 ### Test Installations
-echo "\n\n##### Testing Installations #####\n\n"
+echo "##### Testing Installations #####"
 declare -A commands=( 
     ["Go"]="which go"
     ["llvm-strip"]="which llvm-strip"
@@ -85,15 +89,21 @@ for dependency in "${!commands[@]}"; do
     printf "%-15s\t%-30s\n" "$dependency" "$path"
 done
 
+echo ""
+echo "##### GHCR Credentials Config #####"
 echo "To create a new GHCR token and use it, go to https://github.com/settings/tokens/new 
 Set the following: 
 - repo 
 - write:packages 
-- delete:packages 
+- delete:packages"
+ 
+echo ""
 
-Then you will need to run: 
-export CR_PAT=YOUR_TOKEN 
-echo \$CR_PAT | docker login ghcr.io -u USERNAME --password-stdin"
+read -p "Enter your GHCR token: " USER_INPUT
+export CR_PAT=$USER_INPUT 
+echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+
+
 
 ### Set up GPG key
 
