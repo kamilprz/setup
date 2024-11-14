@@ -14,7 +14,7 @@ mkdir -p ~/src && cd ~/src
 [ -d "retina" ] && rm -rf retina
 # Clone my fork of retina
 git clone https://github.com/kamilprz/retina.git
-cd /retina
+cd retina
 git config --add commit.gpgsign true
 
 cd ../..

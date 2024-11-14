@@ -12,6 +12,20 @@ function Ensure-RegistryKey {
     }
 }
 
+ function Fix-AltTabBehaviour {
+    # Went and found this in Registry editor. Process Monitor from Sys Internals is another option
+    $regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    $valueName = "MultiTaskingAltTabFilter"
+
+    $tabBehaviour = Get-ItemProperty -Path $regPath -Name $valueName
+    if ($tabBehaviour.MultiTaskingAltTabFilter -eq 3) {
+        Write-Output ($GREEN + "Alt-Tab behaviour corrected.")
+    } else {
+        Write-Output ($YELLOW + "Alt-Tab behaviour includes brower tabs, auto-disabling it...")
+        Set-ItemProperty -Path $regPath -Name $valueName -Value 3 # Disable showing tabs
+    }
+}
+
 ### Disable Bing Search in Windows Search
 Ensure-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Value 0 -ErrorAction Stop
@@ -73,6 +87,8 @@ Ensure-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explor
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AltTabSettings" -Value 1
 Write-Output "Fixed Edge Alt-Tab"
 
+Fix-AltTabBehaviour
+
 ### Show full right-click context menu in Windows 11
 $registryPath = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
 if (-not (Test-Path $registryPath)) {
@@ -104,11 +120,6 @@ $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanc
 Set-ItemProperty -Path $registryPath -Name "TaskbarAl" -Value 0 -Type DWord -Force -ErrorAction Stop
 Write-Output "Aligned taskbar to the left"
 
-### Turn on Do-Not-Disturb
-$registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings"
-Set-ItemProperty -Path $registryPath -Name "NOC_GLOBAL_SETTING_TOASTS_ENABLED" -Value 0 -Type DWord -Force -ErrorAction Stop
-Write-Output "Turned on Do-Not-Disturb"
-
 ### Restart Windows Explorer to apply the changes
 Stop-Process -Name explorer -Force
 Write-Output "Restarted Windows Explorer"
@@ -116,5 +127,3 @@ Write-Output "Restarted Windows Explorer"
 #### Configure WSL
 wsl --update
 Write-Output "WSL updated"
-
-wsl bash wsl.sh
