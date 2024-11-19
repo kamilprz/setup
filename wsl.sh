@@ -180,7 +180,6 @@ configure_git(){
     [ -f ~/.bashrc ] && echo -e '\nexport GPG_TTY=$(tty)' >> ~/.bashrc
 }
 
-# Main script execution
 main() {
     update_system
     setup_repos
@@ -189,6 +188,7 @@ main() {
     configure_ghcr
     test_installations
     configure_git
+    source ~/.bashrc
 }
 
 main

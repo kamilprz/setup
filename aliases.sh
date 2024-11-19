@@ -14,6 +14,7 @@ fi
 ALIASES=(
     "alias k='kubectl'"
     "alias gs='git status'"
+    "alias uncommit='git reset --soft HEAD~1'"
 )
 
 # Add each alias to ~/.bash_aliases if not already present
