@@ -12,9 +12,10 @@ fi
 
 # Define aliases
 ALIASES=(
-    "alias k='kubectl'"
-    "alias gs='git status'"
-    "alias uncommit='git reset --soft HEAD~1'"
+    'alias k="kubectl"'
+    'alias gs="git status"'
+    'alias uncommit="git reset --soft HEAD~1"'
+    'alias src="cd ~/src"'
 )
 
 # Add each alias to ~/.bash_aliases if not already present
