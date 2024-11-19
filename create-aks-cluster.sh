@@ -12,13 +12,16 @@ cd azure-aks
 # Prompt the user for the subscription ID
 read -p "Enter your subscription ID: " SUBSCRIPTION_ID
 
+export RESOURCE_GROUP_NAME=kamilp-rg
+export PREFIX=kamilp
+
 # Define the contents of the values.tfvars file
 cat <<EOL > terraform.tfvars
 subscription_id     = "$SUBSCRIPTION_ID"
 tenant_id           = "72f988bf-86f1-41af-91ab-2d7cd011db47"
 location            = "uksouth"
-resource_group_name = "kamilp-rg"
-prefix              = "kamilp"
+resource_group_name = "$RESOURCE_GROUP_NAME"
+prefix              = "$PREFIX"
 labels = {
   environment = "test"
   team        = "devops"
@@ -32,3 +35,7 @@ tofu init
 tofu plan
 
 tofu apply
+
+az aks get-credentials --resource-group $RESOURCE_GROUP_NAME --name $PREFIX-aks --admin
+
+export KUBECONFIG=/mnt/c/Users/kamilp/.kube/config
