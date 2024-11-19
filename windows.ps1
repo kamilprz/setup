@@ -3,7 +3,7 @@
 #### Configure Windows Settings
 
 # Function to check if a registry key exists and create it if not
-function Ensure-RegistryKey {
+function Get-RegistryKey {
     param (
         [string]$Path
     )
@@ -13,14 +13,15 @@ function Ensure-RegistryKey {
 }
 
 # Stop displaying Edge tabs as windows when Alt-Tabbing
- function Fix-AltTabBehaviour {
+function Update-AltTabBehaviour {
     $regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     $valueName = "MultiTaskingAltTabFilter"
 
     $tabBehaviour = Get-ItemProperty -Path $regPath -Name $valueName
     if ($tabBehaviour.MultiTaskingAltTabFilter -eq 3) {
         Write-Output ("Alt-Tab behaviour corrected.")
-    } else {
+    }
+    else {
         Write-Output ("Alt-Tab behaviour includes brower tabs, auto-disabling it...")
         Set-ItemProperty -Path $regPath -Name $valueName -Value 3 # Disable showing tabs
     }
@@ -28,7 +29,7 @@ function Ensure-RegistryKey {
 
 # Disable Bing search in Windows search
 function Disable-BingSearch {
-    Ensure-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Value 0
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "CortanaConsent" -Value 0
     Write-Output "Disabled Bing Search in Windows."
@@ -39,23 +40,23 @@ function Disable-PrivacySettings {
     Write-Output "Disabling spyware..."
 
     # Ensure ActivityFeed keys exist before setting properties
-    Ensure-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ActivityFeed"
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ActivityFeed"
     # Disable Activity History
-    Ensure-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ActivityFeed"
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ActivityFeed"
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ActivityFeed" -Name "PublishUserActivities" -Value 0
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ActivityFeed" -Name "UploadUserActivities" -Value 0
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ActivityFeed" -Name "SaveActivityHistory" -Value 0
 
     # Disable Online Speech Recognition
-    Ensure-RegistryKey -Path "HKCU:\Software\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" -Name "HasAccepted" -Value 0
 
     # Disable Diagnostic Data Viewer
-    Ensure-RegistryKey -Path "HKCU:\Software\Microsoft\DiagnosticDataViewer"
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\DiagnosticDataViewer"
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\DiagnosticDataViewer" -Name "IsEnabled" -Value 0
 
     # Disable Feedback Frequency
-    Ensure-RegistryKey -Path "HKCU:\Software\Microsoft\Siuf\Rules"
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Siuf\Rules"
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Value 0
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Siuf\Rules" -Name "PeriodInNanoSeconds" -Value 0
 
@@ -130,7 +131,7 @@ function Remove-SearchBar {
 }
 
 # Function to align the taskbar to the left
-function Align-TaskbarLeft {
+function Set-TaskbarLeft {
     $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     Set-ItemProperty -Path $registryPath -Name "TaskbarAl" -Value 0 -Type DWord
     Write-Output "Aligned taskbar to the left."
@@ -141,6 +142,14 @@ function Set-Wallpaper {
     param (
         [string]$imagePath
     )
+    Add-Type @"
+    using System;
+    using System.Runtime.InteropServices;
+    public class Wallpaper {
+        [DllImport("user32.dll", CharSet=CharSet.Auto)]
+        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+    }
+"@
     $SPI_SETDESKWALLPAPER = 0x0014
     $SPIF_UPDATEINIFILE = 0x01
     $SPIF_SENDCHANGE = 0x02
@@ -157,29 +166,76 @@ function Restart-Explorer {
 # Update WSL
 function Update-WSL {
     wsl --update
-    Write-Output "WSL updated."
+}
+
+
+function Update-Cursor {
+    # Define the folder containing the .cur files
+    $cursorFolder = Join-Path -Path $PSScriptRoot -ChildPath "windows_cursor"
+
+    # Ensure the folder exists
+    if (-not (Test-Path $cursorFolder)) {
+        Write-Error "The specified folder does not exist: $cursorFolder"
+        return
+    }
+
+    # Define the list of cursor roles and their default filenames
+    $cursorRoles = @{
+        "AppStarting" = "busy_eoa.cur"
+        "Arrow"       = "arrow_eoa.cur"
+        "Crosshair"   = "cross_eoa.cur"
+        "Hand"        = "link_eoa.cur"
+        "Help"        = "helpsel_eoa.cur"
+        "IBeam"       = "ibeam_eoa.cur"
+        "No"          = "unavail_eoa.cur"
+        "NWPen"       = "pen_eoa.cur"
+        "Person"      = "person_eoa.cur"
+        "Pin"         = "pin_eoa.cur"
+        "SizeAll"     = "move_eoa.cur"
+        "SizeNESW"    = "nesw_eoa.cur"
+        "SizeNS"      = "ns_eoa.cur"
+        "SizeNWSE"    = "nwse_eoa.cur"
+        "SizeWE"      = "ew_eoa.cur"
+        "UpArrow"     = "up_eoa.cur"
+        "Wait"        = "wait_eoa.cur"
+    }
+
+    # Loop through each cursor role and update its registry value
+    foreach ($role in $cursorRoles.Keys) {
+        $cursorFile = Join-Path -Path $cursorFolder -ChildPath $cursorRoles[$role]
+        if (Test-Path $cursorFile) {
+            # Set the registry value for the cursor
+            Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name $role -Value $cursorFile
+        }
+        else {
+            Write-Warning "Cursor file not found $cursorFile"
+        }
+    }
+
+    # Apply the changes by refreshing system parameters
+    rundll32.exe user32.dll, UpdatePerUserSystemParameters
+    Write-Output "Cursor scheme updated successfully."
 }
 
 
 ###############################################
 
-
-Fix-AltTabBehaviour
+Enable-ClipboardHistory
+Update-AltTabBehaviour
 Disable-BingSearch
 Disable-PrivacySettings
 Enable-FullContextMenu
 Show-HiddenFiles
-Enable-ClipboardHistory
 Set-DarkMode
 Remove-SearchBar
-Align-TaskbarLeft
+Set-TaskbarLeft
+Update-Cursor
 Set-Wallpaper -imagePath "C:\Windows\Web\Wallpaper\ThemeB\img25.jpg"
-
+Update-WSL
 Restart-Explorer
 
-Update-WSL
+### notes
 
-### Manual touches
-Write-Output "To change the colour of mouse cursor -> Win+U -> Mouse Pointer and Touch -> Custom -> #21FFFB"
+Write-Output "### NOTE: Cursor changes will be reflected in the next login."
 
 
