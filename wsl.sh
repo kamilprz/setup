@@ -13,8 +13,8 @@ setup_repos() {
     [ -d "retina" ] && rm -rf retina
     # Clone my fork of retina
     git clone https://github.com/kamilprz/retina.git
-    git remote add upstream https://github.com/microsoft/retina.git
     cd retina
+    git remote add upstream https://github.com/microsoft/retina.git
     cd ../..
 }
 
