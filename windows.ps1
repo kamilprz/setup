@@ -133,6 +133,17 @@ function Remove-SearchBar {
     Write-Output "Removed the search bar from the taskbar."
 }
 
+function Remove-TaskView {
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Value 0
+    Write-Output "Removed the task view button from the taskbar."
+}
+
+function Remove-Widgets {
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarDa" -Value 0
+    Write-Output "Removed the widgets button from the taskbar."
+}
+
 # Function to align the taskbar to the left
 function Set-TaskbarLeft {
     $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
@@ -236,6 +247,8 @@ Enable-FullContextMenu
 Show-HiddenFiles
 Set-DarkMode
 Remove-SearchBar
+Remove-TaskView
+Remove-Widgets
 Set-TaskbarLeft
 Update-Cursor
 Set-Wallpaper -imagePath "C:\Windows\Web\Wallpaper\ThemeB\img25.jpg"
