@@ -29,6 +29,11 @@ labels = {
 }
 EOL
 
+echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
+
+exec bash
+source ~/.bashrc
+
 sudo snap install --classic opentofu
 
 tofu init
