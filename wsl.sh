@@ -191,8 +191,8 @@ configure_git(){
     gpg --armor --export $GPG_KEY
 
     echo ""
-    echo "Copy your GPG key, beginning with -----BEGIN PGP PUBLIC KEY BLOCK----- and ending with -----END PGP PUBLIC KEY BLOCK-----."
-    echo "Add the key to your GitHub account. https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account"
+    echo "##### Copy your GPG key, beginning with -----BEGIN PGP PUBLIC KEY BLOCK----- and ending with -----END PGP PUBLIC KEY BLOCK-----. #####"
+    echo "##### Add the key to your GitHub account. https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account #####"
 
     cd ~/src/retina
     git config user.signingkey $GPG_KEY

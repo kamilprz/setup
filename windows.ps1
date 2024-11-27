@@ -140,8 +140,9 @@ function Remove-TaskView {
 }
 
 function Remove-Widgets {
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarDa" -Value 0
-    Write-Output "Removed the widgets button from the taskbar."
+    # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarDa" -Value 0
+    # Write-Output "Removed the widgets button from the taskbar."
+    Write-Output "CANNOT REMOVE WIDGETS FROM TASKBAR - DO MANUALLY :("
 }
 
 # Function to align the taskbar to the left
