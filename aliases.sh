@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo ""
+echo "##### Setting up Bash Aliases #####"
+
 bash_aliases_file="$HOME/.bash_aliases"
 
 # Check if .bash_aliases exists; if not, create it

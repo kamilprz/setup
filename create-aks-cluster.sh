@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "##### Creating an AKS Cluster #####"
 echo "##### COPY THE SUBSCRIPTION ID THAT YOU WANT TO USE! #####"
 
 az login

@@ -167,6 +167,9 @@ configure_ghcr() {
 }
 
 configure_git(){
+    echo ""
+    echo "##### Setting up Git #####"
+
     echo "##### Use same email on GPG as on Git #####"
 
     read -p "Enter your GH email: " USER_EMAIL
@@ -179,6 +182,8 @@ configure_git(){
     sudo apt-get -y install gnupg
     gpg --full-generate-key
 
+    echo ""
+    echo "##### Setting up GPG key to sign commits #####"
     echo "From the list of GPG keys, copy the long form of the GPG key ID you'd like to use - e.g. sec   4096R/***3AA5C34371567BD2 ***"
     gpg --list-secret-keys --keyid-format=long
 
@@ -195,6 +200,8 @@ configure_git(){
 
     [ -f ~/.bashrc ] && echo -e '\nexport GPG_TTY=$(tty)' >> ~/.bashrc
 
+    echo ""
+    echo "##### Logging into GitHub CLI #####"
     gh auth login
 }
 
