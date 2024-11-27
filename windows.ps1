@@ -252,12 +252,9 @@ Remove-Widgets
 Set-TaskbarLeft
 Update-Cursor
 Set-Wallpaper -imagePath "C:\Windows\Web\Wallpaper\ThemeB\img25.jpg"
-# Update-WSL
-Install-WSL
 Restart-Explorer
-
-### notes
-
 Write-Output "### NOTE: Cursor changes will be reflected in the next login."
 
-
+Write-Output "### NOTE: Close the WSL shell to continue with installations -> Ctrl+D"
+# Update-WSL
+Install-WSL
