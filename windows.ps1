@@ -239,7 +239,8 @@ Remove-SearchBar
 Set-TaskbarLeft
 Update-Cursor
 Set-Wallpaper -imagePath "C:\Windows\Web\Wallpaper\ThemeB\img25.jpg"
-Update-WSL
+# Update-WSL
+Install-WSL
 Restart-Explorer
 
 ### notes

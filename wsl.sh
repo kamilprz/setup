@@ -34,6 +34,7 @@ install_docker() {
     sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt-get update
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     # Test on Hello World image
     sudo docker run hello-world
@@ -156,6 +157,7 @@ configure_ghcr() {
     echo "##### Configuring GHCR Credentials #####"
     echo "Go to https://github.com/settings/tokens/new and create a token with the following scopes:"
     echo "- repo"
+    echo "- workflows"
     echo "- write:packages"
     echo "- delete:packages"
     echo ""
@@ -201,8 +203,8 @@ main() {
     setup_repos
     install_docker
     install_dependencies
-    configure_ghcr
     test_installations
+    configure_ghcr
     configure_git
     source ~/.bashrc
 }
