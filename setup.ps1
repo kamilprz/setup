@@ -2,6 +2,8 @@
 
 wsl bash wsl.sh
 
+wsl bash aliases.sh
+
 # Restart WSL
 wsl --shutdown
 
