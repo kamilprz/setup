@@ -83,9 +83,11 @@ function Disable-PrivacySettings {
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Value 1
 
     # Disable app access to account info
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks"
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks" -Name "Value" -Value "Deny"
 
     # Disable access to contacts
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts"
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts" -Name "Value" -Value "Deny"
 
     # Set diagnostic data level to "Basic" (0), or "Security" (1) on Enterprise editions
@@ -112,6 +114,7 @@ function Show-HiddenFiles {
 
 # Enable clipboard history
 function Enable-ClipboardHistory {
+    Get-RegistryKey -Path "HKCU:\Software\Microsoft\Clipboard"
     New-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name "EnableClipboardHistory" -Value 1 -PropertyType DWORD -Force
     Write-Output "Enabled Clipboard History"
 }
@@ -166,6 +169,11 @@ function Restart-Explorer {
 # Update WSL
 function Update-WSL {
     wsl --update
+}
+
+function Install-WSL {
+    wsl.exe --install ubuntu
+    wsl --shutdown
 }
 
 
