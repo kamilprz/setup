@@ -87,6 +87,7 @@ install_dependencies() {
     install_go
     install_kubectl
     install_krew
+    install_gh
 }
 
 install_kubectl() {
@@ -118,6 +119,15 @@ install_krew() {
     fi
 }
 
+install_gh() {
+    # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+    sudo apt install gh
+}
+
+install_yarn() {
+    curl -o- -L https://yarnpkg.com/install.sh | bash
+}
+
 test_installations() {
     echo "##### Testing Installations #####"
     declare -A commands=( 
@@ -128,6 +138,7 @@ test_installations() {
         ["helm"]="which helm"
         ["Docker"]="which docker"
         ["kubectl"]="which kubectl"
+        ["gh"]="which gh"
     )
     printf "%-15s\t%-30s\n" "Dependency" "Path"
     echo "-----------------------------------------------------------"
@@ -154,6 +165,8 @@ configure_ghcr() {
 }
 
 configure_git(){
+    echo "##### Use same email on GPG as on Git #####"
+
     read -p "Enter your GH email: " USER_EMAIL
     git config --global user.email "$USER_EMAIL"
     read -p "Enter your GH name: " USER_NAME
@@ -179,6 +192,8 @@ configure_git(){
     git config --add commit.gpgsign true
 
     [ -f ~/.bashrc ] && echo -e '\nexport GPG_TTY=$(tty)' >> ~/.bashrc
+
+    gh auth login
 }
 
 main() {
