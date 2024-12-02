@@ -16,6 +16,7 @@ function Get-RegistryKey {
 function Update-AltTabBehaviour {
     $regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     $valueName = "MultiTaskingAltTabFilter"
+    Get-RegistryKey -Path $regPath
 
     $tabBehaviour = Get-ItemProperty -Path $regPath -Name $valueName
     if ($tabBehaviour.MultiTaskingAltTabFilter -eq 3) {
