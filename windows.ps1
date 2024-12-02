@@ -185,7 +185,7 @@ function Update-WSL {
 
 function Install-WSL {
     wsl.exe --install ubuntu
-    wsl --shutdown
+    wsl --set-default ubuntu
 }
 
 
