@@ -1,5 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
 
+console_title_template: "{{ .UserName }} :: {{.Folder}}{{if .Root}} :: root{{end}} :: {{.Shell}}"
+
 palette:
   blue: "#56B6C2"
   lavender: "#B4BEFE"
