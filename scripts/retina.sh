@@ -1,21 +1,41 @@
-#!/bin/bash
-
-update_system() {
-    echo "##### Running apt-get update and upgrade..."
-    sudo apt-get update -y
-    sudo apt-get upgrade -y
+print_notice() {
+    echo ""
+    echo "NOTE: "
+    echo "- This script does NOT install Docker Desktop, which is a pre-requisite to building Retina."
+    echo "- It DOES install Docker engine."
+    echo "- To install Docker Desktop you can run 'winget install --id=Docker.DockerDesktop -e' in Powershell, or install through alternative means."
+    echo ""
+    read -p "Press ENTER to continue with execution or cancel with Ctrl+C"
 }
 
-setup_repos() {
-    echo "##### Setting up ~/src and repos"
+setup_repo() {
+    echo ""
+    echo "##### Setting up ~/src and Retina repo"
     mkdir -p ~/src && cd ~/src
     # If retina exists as a directory, delete it
     [ -d "retina" ] && rm -rf retina
-    # Clone my fork of retina
-    git clone https://github.com/kamilprz/retina.git
+
+    red -p "Enter your GitHub username where your Retina fork exists: " GH_USER
+
+    # Clone your fork of retina
+    git clone https://github.com/$GH_USER/retina.git
     cd retina
     git remote add upstream https://github.com/microsoft/retina.git
     cd ../..
+}
+
+install_dependencies() {
+    echo ""
+    echo "##### Installing llvm / clang / jq ..."
+    sudo apt-get install -y llvm clang jq
+
+    install_docker
+    install_helm
+    install_go
+    install_kubectl
+    install_krew
+    install_gh
+    install_tofu
 }
 
 remove_conflicting_docker_packages() {
@@ -26,6 +46,7 @@ remove_conflicting_docker_packages() {
 }
 
 install_docker() {
+    echo ""
     echo "##### Installing Docker..."
     remove_conflicting_docker_packages
     # Set up Docker through apt - https://docs.docker.com/engine/install/ubuntu/
@@ -41,6 +62,7 @@ install_docker() {
 }
 
 install_helm() {
+    echo ""
     echo "##### Installing Helm..."
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
     chmod 700 get_helm.sh
@@ -49,6 +71,7 @@ install_helm() {
 }
 
 install_go() {
+    echo ""
     echo "##### Installing Golang..."
     local go_file="go1.23.1.linux-amd64.tar.gz"
     local download_dir="/tmp/go_install"
@@ -81,17 +104,8 @@ install_go() {
     cd -
 }
 
-install_dependencies() {
-    echo "##### Installing llvm / clang / jq ..."
-    sudo apt-get install -y llvm clang jq
-    install_helm
-    install_go
-    install_kubectl
-    install_krew
-    install_gh
-}
-
 install_kubectl() {
+    echo ""
     echo "##### Installing kubectl..."
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
@@ -99,6 +113,7 @@ install_kubectl() {
 }
 
 install_krew() {
+    echo ""
     echo "##### Installing krew..."
     (
         set -x
@@ -121,15 +136,21 @@ install_krew() {
 }
 
 install_gh() {
-    # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+    echo ""
+    echo "##### Installing gh cli..."
     sudo apt install gh
 }
 
-install_yarn() {
-    curl -o- -L https://yarnpkg.com/install.sh | bash
+install_tofu() {
+    echo ""
+    echo "##### Installing OpenTofu..."
+    echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
+    source ~/.bashrc
+    sudo snap install --classic opentofu
 }
 
 test_installations() {
+    echo ""
     echo "##### Testing Installations #####"
     declare -A commands=( 
         ["Go"]="which go"
@@ -140,6 +161,7 @@ test_installations() {
         ["Docker"]="which docker"
         ["kubectl"]="which kubectl"
         ["gh"]="which gh"
+        ["tofu"]="which tofu"
     )
     printf "%-15s\t%-30s\n" "Dependency" "Path"
     echo "-----------------------------------------------------------"
@@ -152,70 +174,13 @@ test_installations() {
     done
 }
 
-configure_ghcr() {
-    echo ""
-    echo "##### Configuring GHCR Credentials #####"
-    echo "Go to https://github.com/settings/tokens/new and create a token with the following scopes:"
-    echo "- repo"
-    echo "- workflows"
-    echo "- write:packages"
-    echo "- delete:packages"
-    echo ""
-    read -p "Enter your GHCR token: " USER_INPUT
-    export CR_PAT=$USER_INPUT
-    echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
-}
-
-configure_git(){
-    echo ""
-    echo "##### Setting up Git #####"
-
-    echo "##### Use same email on GPG as on Git #####"
-
-    read -p "Enter your GH email: " USER_EMAIL
-    git config --global user.email "$USER_EMAIL"
-    read -p "Enter your GH name: " USER_NAME
-    git config --global user.name "$USER_NAME"
-
-    git config --global --unset gpg.format
-
-    sudo apt-get -y install gnupg
-    gpg --full-generate-key
-
-    echo ""
-    echo "##### Setting up GPG key to sign commits #####"
-    echo "From the list of GPG keys, copy the long form of the GPG key ID you'd like to use - e.g. sec   4096R/***3AA5C34371567BD2 ***"
-    gpg --list-secret-keys --keyid-format=long
-
-    read -p "Enter the long form of the GPG key ID: " GPG_KEY
-    gpg --armor --export $GPG_KEY
-
-    echo ""
-    echo "##### Copy your GPG key, beginning with -----BEGIN PGP PUBLIC KEY BLOCK----- and ending with -----END PGP PUBLIC KEY BLOCK-----. #####"
-    echo "##### Add the key to your GitHub account. https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account #####"
-
-    cd ~/src/retina
-    git config user.signingkey $GPG_KEY
-    git config --add commit.gpgsign true
-
-    [ -f ~/.bashrc ] && echo -e '\nexport GPG_TTY=$(tty)' >> ~/.bashrc
-
-    echo ""
-    echo "##### Logging into GitHub CLI #####"
-    gh auth login
-}
-
 main() {
-    update_system
-    setup_repos
-    install_docker
+    clear
+    echo "##### Setting up Retina repo and dependencies..."  
+    print_notice
+    setup_repo
     install_dependencies
     test_installations
-    configure_ghcr
-    configure_git
-    source ~/.bashrc
 }
 
 main
-
-### Install zsh
