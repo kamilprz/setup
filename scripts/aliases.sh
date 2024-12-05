@@ -19,6 +19,7 @@ ALIASES=(
     'alias gs="git status"'
     'alias uncommit="git reset --soft HEAD~1"'
     'alias src="cd ~/src"'
+    # 'alias ohmp="oh-my-posh"'
 )
 
 # Add each alias to ~/.bash_aliases if not already present

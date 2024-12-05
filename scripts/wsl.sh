@@ -68,6 +68,11 @@ setup_aliases() {
     bash aliases.sh
 }
 
+setup_root_perms() {
+    sudo addgroup wheel
+    sudo gpasswd -a kamilp wheel
+}
+
 main() {
     clear
     update_system
