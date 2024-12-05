@@ -53,11 +53,9 @@ tofu apply
 
 az aks get-credentials --resource-group $RESOURCE_GROUP_NAME --name $PREFIX-aks --admin
 
-export KUBECONFIG=/mnt/c/Users/$ALIAS/.kube/config
-
 # Add kubectl path to .bashrc if not already added
-if ! grep -q 'export KUBECONFIG=/mnt/c/Users/$ALIAS/.kube/config' ~/.bashrc; then
-    echo 'export KUBECONFIG=/mnt/c/Users/$ALIAS/.kube/config' >> ~/.bashrc
+if ! grep -q "export KUBECONFIG=/mnt/c/Users/$ALIAS/.kube/config" ~/.bashrc; then
+    echo "export KUBECONFIG=/mnt/c/Users/$ALIAS/.kube/config" >> ~/.bashrc
     echo "Added kubectl path to .bashrc"
 else
     echo "kubectl path already present in .bashrc"
