@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
 
-console_title_template: "{{ .UserName }} :: {{.Folder}}{{if .Root}} :: root{{end}} :: {{.Shell}}"
+console_title_template: "{{ .UserName }} :: {{.Folder}} :: {{.Shell}}"
 
 palette:
   blue: "#56B6C2"
@@ -70,11 +70,11 @@ secondary_prompt:
   template: ">> "
 
 ### NOT supported on bash
-# transient_prompt:
-#   template: ">"
-#   foreground_templates:
-#     - "{{ if eq .Code 0 }}p:lavender{{ else }}p:red{{ end }}"
-#   background: transparent
+transient_prompt:
+  template: ">"
+  foreground_templates:
+    - "{{ if eq .Code 0 }}p:lavender{{ else }}p:red{{ end }}"
+  background: transparent
 
 version: 3
 final_space: true
