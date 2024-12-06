@@ -16,7 +16,7 @@ sudo apt-get install unzip
 [ -d "$HOME/bin" ] || mkdir "$HOME/bin"
 
 if ! grep -qF "export PATH=$PATH:/home/kamilp/bin" "$bashrc_file"; then
-    echo "export PATH=$PATH:/home/kamilp/bin" >> "$bashrc_file"
+    echo 'export PATH=$PATH:/home/kamilp/bin' >> "$bashrc_file"
 fi
 
 # Install
