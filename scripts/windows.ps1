@@ -189,6 +189,23 @@ function Install-WSL {
     wsl --set-default ubuntu
 }
 
+function Set-WSL-DefaultUser {
+    param (
+        [string]$DistroName = "Ubuntu"
+    )
+    
+    # Prompt for the username
+    $username = Read-Host "Enter the WSL username you want to set as default: "
+
+    # Set the default user for the specified WSL distribution
+    if ($username) {
+        wsl.exe --distribution $DistroName --user $username
+        Write-Host "Default user for $DistroName set to $username." -ForegroundColor Green
+    } else {
+        Write-Host "No username entered. Aborting operation." -ForegroundColor Red
+    }
+}
+
 
 function Update-Cursor {
     # Define the folder containing the .cur files
@@ -260,3 +277,4 @@ Write-Output "### NOTE: Cursor changes will be reflected in the next login."
 Write-Output "### NOTE: Close the WSL shell to continue with installations -> Ctrl+D"
 # Update-WSL
 Install-WSL
+Set-WSL-DefaultUser
