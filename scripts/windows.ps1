@@ -1,6 +1,6 @@
 #### RUN ME AS ADMIN
 
-#### Configure Windows Settings
+#### This script configures Windows settings
 
 # Function to check if a registry key exists and create it if not
 function Get-RegistryKey {

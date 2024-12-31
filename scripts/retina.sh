@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# This script sets up the Retina repo and installs required dependencies
+
 print_notice() {
     echo ""
     echo "NOTE: "

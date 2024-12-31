@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script sets up frequently used bash aliases
+
 echo ""
 echo "##### Setting up Bash Aliases #####"
 

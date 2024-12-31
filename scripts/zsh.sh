@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Work In Progress - this script will set up zsh and OhMyZsh
+
 # Install zsh
 sudo apt install zsh
 

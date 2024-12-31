@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script sets up WSL with some dependencies and configurations
+
 update_system() {
     echo ""
     echo "##### Running apt-get update and upgrade..."

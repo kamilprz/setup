@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script creates an AKS cluster using the tofu CLI
+
 clear
 echo "##### Creating an AKS Cluster #####"
 echo "##### COPY THE SUBSCRIPTION ID THAT YOU WANT TO USE! #####"

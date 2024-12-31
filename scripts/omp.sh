@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script sets up Oh My Posh
+
 clear
 echo "##### Setting up Oh My Posh..."
 
