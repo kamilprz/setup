@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script sets up WSL with some dependencies and configurations
+# This script sets up bash with some dependencies and configurations
 
 update_system() {
     echo ""
