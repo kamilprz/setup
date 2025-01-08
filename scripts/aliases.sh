@@ -22,6 +22,7 @@ ALIASES=(
     'alias uncommit="git reset --soft HEAD~1"'
     'alias src="cd ~/src"'
     # 'alias ohmp="oh-my-posh"'
+    'alias build_retina_cli="go build -o bin/kubectl-retina cli/main.go"'
 )
 
 # Add each alias to ~/.bash_aliases if not already present
