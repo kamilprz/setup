@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script creates an AKS cluster using the tofu CLI
+# Create an AKS cluster using the tofu CLI
 
 clear
 echo "##### Creating an AKS Cluster #####"

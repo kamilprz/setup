@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script sets up the Retina repo and installs required dependencies
+# Set up the Retina repo and install required dependencies
 
 print_notice() {
     echo ""
@@ -38,7 +38,6 @@ install_dependencies() {
     install_go
     install_kubectl
     install_krew
-    install_gh
     install_tofu
 }
 
@@ -139,12 +138,6 @@ install_krew() {
     fi
 }
 
-install_gh() {
-    echo ""
-    echo "##### Installing gh cli..."
-    sudo apt install gh
-}
-
 install_tofu() {
     echo ""
     echo "##### Installing OpenTofu..."
@@ -164,7 +157,6 @@ test_installations() {
         ["helm"]="which helm"
         ["Docker"]="which docker"
         ["kubectl"]="which kubectl"
-        ["gh"]="which gh"
         ["tofu"]="which tofu"
     )
     printf "%-15s\t%-30s\n" "Dependency" "Path"
@@ -185,6 +177,9 @@ main() {
     setup_repo
     install_dependencies
     test_installations
+
+    bash configure_ghcr.sh
+    bash configure_gpg_git.sh
 }
 
 main
