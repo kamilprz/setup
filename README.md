@@ -18,12 +18,12 @@ Bash scripts are run with `bash script.sh`.
 
 Powershell scripts are run with `.\script.ps1`
 
-- `bash` sets up a Bash environment by installing some tools and setting up repos.
 - `configure_ghcr` signs into GitHub Container Registry for use in Docker.
-- `configure_gpg_git` sets up git user and email, and creates a gpg key which can be used to sign commits.
+- `configure_gpg` sets a gpg key which can be used to sign commits.
 - `create-aks-cluster` creates an AKS cluster on Azure.
 - `omp` sets up Oh-My-Posh.
 - `retina` installs dependencies required to build the repo and sets up git/gpg.
+- `ubuntu` sets up a Bash environment in Ubuntu by installing some tools and setting up repos.
 - `windows` disables a bunch of Windows settings and sets some favourable defaults.
 - `zsh` is a WIP, but will set up a zsh environment.
 
@@ -35,7 +35,7 @@ In the future it would be nice to symlink this file with the settings file, but 
 
 ### Themes
 
-Contains my custom theme for `Oh-My-Posh`. 
+Contains my custom theme for `Oh-My-Posh`.
 
 There is also one for `Oh-My-Zsh` which is not actively being used.
 

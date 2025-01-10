@@ -1,29 +1,12 @@
 #!/bin/bash
 
-# Set up Git and GPG for signing commits
-
-setup_git() {
-    echo ""
-    echo "##### Setting up Git #####"
-    echo "##### Use same email on GPG as on Git #####"
-
-    read -p "Enter your Git email: " USER_EMAIL
-    git config --global user.email "$USER_EMAIL"
-    read -p "Enter your Git name: " USER_NAME
-    git config --global user.name "$USER_NAME"
-
-    git config --global push.autoSetupRemote true
-    git config --global --unset gpg.format
-
-    echo ""
-    echo "##### Installing GitHub (gh) cli... #####"
-    sudo apt install gh
-    echo ""
-    echo "##### Logging into gh cli #####"
-    gh auth login
-}
+# Set up GPG for signing commits
 
 setup_gpg() {
+    echo "##### Use same email on GPG as on Git config #####"
+    echo "##### Git config email is: " $(git config --global user.email)
+    git config --global --unset gpg.format
+
     echo "##### Installing gnupg... #####"
     sudo apt-get -y install gnupg
     echo "##### Generating GPG key... #####"
@@ -39,9 +22,7 @@ setup_gpg() {
 
     echo ""
     echo "##### Copy your GPG key, beginning with -----BEGIN PGP PUBLIC KEY BLOCK----- and ending with -----END PGP PUBLIC KEY BLOCK-----. #####"
-    echo "##### Add the key to your GitHub account. https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account #####"
-
-    cd ~/src/retina
+    echo "##### Add the key to your GitHub account -> https://github.com/settings/keys #####"
 
     echo ""
     echo "##### Navigate to the repo where you want to sign commits and run the following commands #####"
@@ -56,7 +37,6 @@ setup_gpg() {
 }
 
 main() {
-    setup_git
     setup_gpg
 }
 
