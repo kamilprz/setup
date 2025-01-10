@@ -12,6 +12,7 @@ setup_git() {
     read -p "Enter your Git name: " USER_NAME
     git config --global user.name "$USER_NAME"
 
+    git config --global push.autoSetupRemote true
     git config --global --unset gpg.format
 
     echo ""
