@@ -23,7 +23,6 @@ Powershell scripts are run with `.\script.ps1`
 - `create-aks-cluster` creates an AKS cluster on Azure.
 - `omp` sets up Oh-My-Posh.
 - `retina` installs dependencies required to build the repo and sets up git/gpg.
-- `ubuntu` sets up a Bash environment in Ubuntu by installing some tools and setting up repos.
 - `windows` disables a bunch of Windows settings and sets some favourable defaults.
 - `zsh` is a WIP, but will set up a zsh environment.
 
