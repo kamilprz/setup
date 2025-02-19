@@ -41,17 +41,20 @@ labels = {
 }
 EOL
 
+cp terraform.tfvars live/aks
+cp terraform.tfvars examples/aks
+
 echo ""
 echo "##### Running tofu init..."
-tofu init
+make init
 
 echo ""
 echo "##### Running tofu plan..."
-tofu plan
+make plan
 
 echo ""
 echo "##### Running tofu apply..."
-tofu apply
+make apply
 
 az aks get-credentials --resource-group $RESOURCE_GROUP_NAME --name $PREFIX-aks --admin
 
