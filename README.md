@@ -20,7 +20,8 @@ Powershell scripts are run with `.\script.ps1`
 
 - `configure_ghcr` signs into GitHub Container Registry for use in Docker.
 - `configure_gpg` sets a gpg key which can be used to sign commits.
-- `create-aks-cluster` creates an AKS cluster on Azure.
+- `az/aks/create` creates an AKS cluster on Azure - idempotent.
+- `az/aks/recreate` deletes and creates an AKS cluster on Azure.
 - `omp` sets up Oh-My-Posh.
 - `retina` installs dependencies required to build the repo and sets up git/gpg.
 - `windows` disables a bunch of Windows settings and sets some favourable defaults.
