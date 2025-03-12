@@ -39,7 +39,7 @@ else
   LOCATION="${LOCATION:-default_location}"
 fi
 
-  # Define the contents of the values.tfvars file
+# Define the contents of the values.tfvars file
 cat <<EOL > $TFVARS_FILE
 subscription_id     = "$SUBSCRIPTION_ID"
 tenant_id           = "$TENANT"
