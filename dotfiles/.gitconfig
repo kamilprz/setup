@@ -1,0 +1,15 @@
+[user]
+	email = kamil.prz@gmail.com
+	name = Kamil
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[push]
+	autoSetupRemote = true
+[log]
+	date = relative
+[format]
+	pretty = format:%C(auto,yellow)%h%C(auto,magenta)% G? %C(auto,cyan)%>(12,trunc)%ad %C(auto,green)%<(10,trunc)%aN%C(auto,reset)%s%C(auto,red)% gD% D
