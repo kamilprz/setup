@@ -14,18 +14,9 @@ There should be none. The point of the scripts in this repo is to be self-suffic
 
 Contains a number of different scripts, mainly for configuring environments and installing dependencies etc.
 
-Bash scripts are run with `bash script.sh`.
+For Linux environment - use Makefile from root. `make help` shows the available commands.
 
-Powershell scripts are run with `.\script.ps1`
-
-- `configure_ghcr` signs into GitHub Container Registry for use in Docker.
-- `configure_gpg` sets a gpg key which can be used to sign commits.
-- `az/aks/create` creates an AKS cluster on Azure - idempotent.
-- `az/aks/recreate` deletes and creates an AKS cluster on Azure.
-- `omp` sets up Oh-My-Posh.
-- `retina` installs dependencies required to build the repo and sets up git/gpg.
-- `windows` disables a bunch of Windows settings and sets some favourable defaults.
-- `zsh` is a WIP, but will set up a zsh environment.
+For Windows environment - use `.\setup.ps1` from root.
 
 ### Settings
 

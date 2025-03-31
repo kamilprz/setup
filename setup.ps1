@@ -2,8 +2,8 @@
 
 # #### This script configures Windows settings
 
-.\windows\clipboard-history.ps1
-.\windows\alt-tab-behaviour.ps1
+.\scripts\windows\clipboard-history.ps1
+.\scripts\windows\alt-tab-behaviour.ps1
 
 # # Taskbar auto-hide
 # # Taskbar don't show flashing
