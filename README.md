@@ -12,6 +12,8 @@ If you want to do it manually - [docs](https://docs.github.com/en/authentication
 sudo apt install gh
 
 gh auth login
+
+git clone git@github.com:kamilprz/setup.git
 ```
 
 Switching remote from HTTPS to SSH - [docs](https://docs.github.com/en/get-started/git-basics/managing-remote-repositories#switching-remote-urls-from-https-to-ssh).
