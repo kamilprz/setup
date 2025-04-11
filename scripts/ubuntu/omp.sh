@@ -19,33 +19,34 @@ if [ ! -f "$theme_file" ]; then
     exit 1
 fi
 
+# Dependency
+sudo apt-get install -y unzip
+
+# Install Oh My Posh
+curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/bin
+
+### Update .bashrc if needed
+
 bashrc_file="$HOME/.bashrc"
 
 if ! grep -qF "export TERM=xterm-256color" $bashrc_file; then
     echo "export TERM=xterm-256color" >> $bashrc_file
 fi
 
-# Dependency
-sudo apt-get install -y unzip
-
 # Create ~/bin if it doesn't exist
 [ -d "$HOME/bin" ] || mkdir "$HOME/bin"
-
-if ! grep -qF "export PATH=\$PATH:/home/kamilp/bin" $bashrc_file; then
-    echo 'export PATH=$PATH:/home/kamilp/bin' >> $bashrc_file
+if ! grep -qF "export PATH=\$PATH:/home/\$USER/bin" $bashrc_file; then
+    echo 'export PATH=$PATH:/home/$USER/bin' >> $bashrc_file
 fi
 
-# Install Oh My Posh
-curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/bin
-
 realpath=$(realpath $theme_file)
-
-# Set custom theme provided as parameter
 if ! grep -qF 'oh-my-posh init bash' $bashrc_file; then
     echo 'eval "$(oh-my-posh init bash --config '$realpath')" ' >> ~/.bashrc
 else 
     echo "Oh My Posh is already initialized in .bashrc"
 fi
+
+### Source .bashrc and restart shell
 
 source ~/.bashrc
 exec bash

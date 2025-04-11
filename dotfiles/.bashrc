@@ -80,12 +80,12 @@ git_sync() {
 ### Environment Variables / Path
 
 # export PATH=$PATH:/home/kamilp/src/retina/bin
-export PATH=$PATH:/home/kamilp/src/retina/artifacts
+export PATH=$PATH:/home/$USER/src/retina/artifacts
 export TERM=xterm-256color
 export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:/home/kamilp/bin
+export PATH=$PATH:/home/$USER/bin
 ### Oh My Posh
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export GPG_TTY=$(tty)
-export KUBECONFIG=/mnt/c/Users/kamilp/.kube/config
-eval "$(oh-my-posh init bash --config /home/kamilp/src/setup/themes/kamp.omp.yaml)"
+export KUBECONFIG=/mnt/c/Users/$USER/.kube/config
+eval "$(oh-my-posh init bash --config /home/$USER/src/setup/themes/kamp.omp.yaml)"
