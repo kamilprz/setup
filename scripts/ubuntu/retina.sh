@@ -30,8 +30,7 @@ setup_repo() {
 
 install_dependencies() {
     echo ""
-    echo "##### Installing llvm / clang / jq ..."
-    sudo apt-get install -y llvm clang jq
+
 
     install_docker
     install_helm
@@ -73,39 +72,7 @@ install_helm() {
     rm get_helm.sh
 }
 
-install_go() {
-    echo ""
-    echo "##### Installing Golang..."
-    local go_file="go1.23.1.linux-amd64.tar.gz"
-    local download_dir="/tmp/go_install"
-    local go_url="https://dl.google.com/go/$go_file"
 
-    mkdir -p "$download_dir"
-    cd "$download_dir"
-
-    if [ ! -f "$go_file" ]; then
-        echo "Downloading $go_file to $download_dir..."
-        wget "$go_url"
-    else
-        echo "$go_file already exists in $download_dir"
-    fi
-
-    # Remove any existing Go installation and extract the new one
-    sudo rm -rf /usr/local/go
-    sudo tar -C /usr/local -xzf "$go_file"
-    export PATH=$PATH:/usr/local/go/bin
-
-    # Add Go binary path to .bashrc if not already added
-    if ! grep -q 'export PATH=$PATH:/usr/local/go/bin' ~/.bashrc; then
-        echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
-        echo "Added Go binary path to .bashrc"
-    else
-        echo "Go binary path already present in .bashrc"
-    fi
-
-    # Return to the original directory
-    cd -
-}
 
 install_kubectl() {
     echo ""
