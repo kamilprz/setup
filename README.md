@@ -1,12 +1,8 @@
 # setup
 
-This repo contains a number of scripts, and settings and theme files.
+This repo contains a number of scripts, theme files etc.
 
 The goal is to easily and reliably recreate environments across different machines, or if something breaks.
-
-## Prerequisites
-
-There should be none. The point of the scripts in this repo is to be self-sufficient and reproducable.
 
 ## Overview
 
@@ -14,21 +10,33 @@ There should be none. The point of the scripts in this repo is to be self-suffic
 
 Contains a number of different scripts, mainly for configuring environments and installing dependencies etc.
 
-For Linux environment - use Makefile from root. `make help` shows the available commands.
+#### Linux
 
-For Windows environment - use `.\setup.ps1` from root.
+```shell
+make help
+```
+
+#### Windows
+
+```powershell
+.\setup.ps1
+```
+
+### Themes
+
+#### Oh-My-Posh
+
+`themes/kamp.omp.yaml`
+
+#### Oh-My-Zsh
+
+`themes/kamp.zsh-theme`
 
 ### Settings
 
 Contains some personalized settings for the Windows Terminal.
 
 In the future it would be nice to symlink this file with the settings file, but for now a good old copy paste job is required.
-
-### Themes
-
-Contains my custom theme for `Oh-My-Posh`.
-
-There is also one for `Oh-My-Zsh` which is not actively being used.
 
 ### Windows Cursor
 
