@@ -8,7 +8,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = azurerm_resource_group.aks_rg.location
   resource_group_name = azurerm_resource_group.aks_rg.name
   dns_prefix          = "${var.prefix}-aks-dns"
-  kubernetes_version  = "1.29.8"
+  kubernetes_version  = "1.33"
 
   default_node_pool {
     name                = "agentpool"
