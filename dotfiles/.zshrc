@@ -11,10 +11,28 @@ bindkey '^n' history-search-forward
 alias ls='ls --color=auto'
 
 # Plugins
-source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-source ~/.config/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh
-source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
-source ~/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+ZSH_PLUGINS_DIR="$HOME/.config/zsh/plugins"
+mkdir -p "$ZSH_PLUGINS_DIR"
+
+# Install a plugin from GitHub if it doesn't exist & source it
+plugin() {
+    local repo_path=$1
+    local plugin_name="${repo_path##*/}"
+    local plugin_dir="$ZSH_PLUGINS_DIR/$plugin_name"
+
+    if [ ! -d "$plugin_dir" ]; then
+        echo "Plugin $plugin_name is missing, installing ..."
+        git clone --depth 1 "https://github.com/$repo_path.git" "$plugin_dir"
+        echo ""
+    fi
+
+    source "$plugin_dir/$plugin_name.plugin.zsh"
+}
+
+plugin "zsh-users/zsh-autosuggestions"
+plugin "zsh-users/zsh-completions"
+plugin "Aloxaf/fzf-tab"
+plugin "zsh-users/zsh-syntax-highlighting"
 
 # Load completions
 autoload -U compinit && compinit
@@ -39,12 +57,13 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 # Theme (Oh My Posh)
-eval "$(oh-my-posh init zsh --config /home/kamilp/src/setup/dotfiles/.config/oh-my-posh/kamp.omp.yaml)" 
+eval "$(oh-my-posh init zsh --config /home/$USER/src/setup/dotfiles/.config/oh-my-posh/kamp.omp.yaml)" 
 
 # Tools
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 
 # Utilities
+## fzf with bat preview 
 ff() {
     local files=$(fzf -m --preview="batcat --color=always {}")
     if [ -n "$files" ]; then
