@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
 
-console_title_template: "{{ .UserName }} :: {{.Folder}} :: {{.Shell}}"
+console_title_template: "{{ .UserName }} :: {{.Folder}}"
 
 palette:
   blue: "#56B6C2"
@@ -46,7 +46,7 @@ blocks:
     segments:
       - type: git
         style: plain
-        template: "git:{{ .HEAD }}{{if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}↓{{ end }}{{if gt .Ahead 0}}↑{{end}}</>"
+        template: "{{ .HEAD }}{{if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}↓{{ end }}{{if gt .Ahead 0}}↑{{end}}</>"
         foreground: p:lavender
         background: transparent
         properties:
