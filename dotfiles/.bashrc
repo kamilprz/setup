@@ -103,4 +103,4 @@ export PATH=$PATH:/home/$USER/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export GPG_TTY=$(tty)
 export KUBECONFIG=/mnt/c/Users/$USER/.kube/config
-eval "$(oh-my-posh init bash --config /home/$USER/src/setup/oh-my-posh/kamp.omp.yaml)"
+eval "$(oh-my-posh init bash --config /home/$USER/src/setup/dotfiles/.config/oh-my-posh/kamp.omp.yaml)" 
