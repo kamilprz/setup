@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script sets up Oh My Posh
+# This script sets up Oh My Posh for zsh
 
 clear
 echo "##### Setting up Oh My Posh..."
@@ -25,28 +25,28 @@ sudo apt-get install -y unzip
 # Install Oh My Posh
 curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/bin
 
-### Update .bashrc if needed
+### Update .zshrc if needed
 
-bashrc_file="$HOME/.bashrc"
+zshrc_file="$HOME/.zshrc"
 
-if ! grep -qF "export TERM=xterm-256color" $bashrc_file; then
-    echo "export TERM=xterm-256color" >> $bashrc_file
+if ! grep -qF "export TERM=xterm-256color" $zshrc_file; then
+    echo "export TERM=xterm-256color" >> $zshrc_file
 fi
 
 # Create ~/bin if it doesn't exist
 [ -d "$HOME/bin" ] || mkdir "$HOME/bin"
-if ! grep -qF "export PATH=\$PATH:/home/\$USER/bin" $bashrc_file; then
-    echo 'export PATH=$PATH:/home/$USER/bin' >> $bashrc_file
+if ! grep -qF "export PATH=\$PATH:/home/\$USER/bin" $zshrc_file; then
+    echo 'export PATH=$PATH:/home/$USER/bin' >> $zshrc_file
 fi
 
 realpath=$(realpath $theme_file)
-if ! grep -qF 'oh-my-posh init bash' $bashrc_file; then
-    echo 'eval "$(oh-my-posh init bash --config '$realpath')" ' >> ~/.bashrc
+if ! grep -qF 'oh-my-posh init bash' $zshrc_file; then
+    echo 'eval "$(oh-my-posh init zsh --config '$realpath')" ' >> ~/.zshrc
 else 
-    echo "Oh My Posh is already initialized in .bashrc"
+    echo "Oh My Posh is already initialized in .zshrc"
 fi
 
-### Source .bashrc and restart shell
+### Source .zshrc and restart shell
 
-source ~/.bashrc
-exec bash
+source ~/.zshrc
+exec zsh
