@@ -68,10 +68,25 @@ ff() {
     fi
 }
 
-git_sync() {
+git-sync() {
   git fetch upstream
   git pull upstream main
   git push
+}
+
+make-debug-pod() {
+  kubectl run -i --tty debug --image=alpine -- sh
+}
+
+delete-debug-pod() {
+  kubectl delete pod debug
+}
+
+remake-cli() {
+  uncommit
+  git add .
+  git commit -m "debugging"
+  make kubectl-retina-image
 }
 
 # Customize default behaviour of fzf.
@@ -88,4 +103,4 @@ export PATH=$PATH:/home/$USER/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export GPG_TTY=$(tty)
 export KUBECONFIG=/mnt/c/Users/$USER/.kube/config
-eval "$(oh-my-posh init bash --config /home/$USER/src/setup/themes/kamp.omp.yaml)"
+eval "$(oh-my-posh init bash --config /home/$USER/src/setup/oh-my-posh/kamp.omp.yaml)"
