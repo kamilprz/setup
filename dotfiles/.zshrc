@@ -6,9 +6,22 @@ bindkey -e
 bindkey '^f' autosuggest-accept
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
+bindkey '^o' cpbuffer
 
 # Aliases
-alias ls='ls --color=auto'
+alias ls="lsd"
+alias ll='ls -alF'
+alias la='ls -A'
+alias tree="ls --tree"
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias src="cd ~/src"
+alias k="kubectl"
+alias gs="git status"
+alias uncommit="git reset --soft HEAD~1"
+alias sourc="source ~/.zshrc"
+alias glog="git log -25"
 
 # Plugins
 ZSH_PLUGINS_DIR="$HOME/.config/zsh/plugins"
@@ -33,6 +46,8 @@ plugin "zsh-users/zsh-autosuggestions"
 plugin "zsh-users/zsh-completions"
 plugin "Aloxaf/fzf-tab"
 plugin "zsh-users/zsh-syntax-highlighting"
+
+# install kubectl, azure, helm?
 
 # Load completions
 autoload -U compinit && compinit
@@ -70,3 +85,27 @@ ff() {
         code $files
     fi
 }
+
+### # clip.exe is a Windows utility (WSL)
+
+## Copy current directory path to clipboard
+function cpdir() {
+  local file="${1:-.}"
+  [[ $file = /* ]] || file="$PWD/$file"
+  print -n "${file:a}" | clip.exe || return 1
+
+  echo "${(%):-"Path of %B${file:a}%b copied to clipboard."}"
+}
+
+## Copy file content to clipboard
+function cpfile() {
+    clip.exe < "$1" || return 1
+    echo "${(%):-"Content of %B$1%b copied to clipboard."}"
+}
+
+## Copy buffer content to clipboard
+function cpbuffer () {
+    echo $BUFFER | clip.exe || return 1
+}
+zle -N cpbuffer
+
