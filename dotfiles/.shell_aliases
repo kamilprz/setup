@@ -1,0 +1,11 @@
+alias ls="lsd"
+alias ll='ls -alF'
+alias la='ls -A'
+alias tree="ls --tree"
+alias grep='grep --color=auto'
+alias glog="git log -25"
+alias gs="git status"
+alias uncommit="git reset --soft HEAD~1"
+alias bashrc="source ~/.bashrc"
+alias zshrc="source ~/.zshrc"
+alias k="kubectl"
