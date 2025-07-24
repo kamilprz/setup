@@ -47,8 +47,8 @@ new: ## Configure a new setup environment from scratch
 	make dotfiles; \
 	make tools; \
 	make deps; \
-	# make zsh; \
 	# make omp; \
+	# make zsh; \ 
 
 .PHONY: tools
 tools: ## Install tools
@@ -64,7 +64,18 @@ omp: ## Configure Oh-my-posh
 
 .PHONY: zsh
 zsh: ## Configure ZSH
-# TODO
+	echo "##### Setting up zsh... #####"; \
+	echo "##### Changes will apply in a new shell instance. #####"; \
+	sudo apt install zsh; \
+	sudo chsh -s /usr/bin/zsh; \
+	exec zsh; \
+
+.PHONY: bash
+bash: ## Configure Bash
+	echo "##### Switching to Bash... #####"; \
+	echo "##### Changes will apply in a new shell instance. #####"; \
+	sudo chsh -s /usr/bin/bash; \
+	exec bash; \
 
 ##@ Test
 
