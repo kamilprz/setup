@@ -27,10 +27,11 @@ gpg: ## Configure GPG signing key
 
 .PHONY: deps
 deps: ## Install dependencies
-	echo "##### Installing llvm / clang / jq ..." \
-	sudo apt-get install -y llvm clang jq \
-	echo "#### Installing Golang ..." \
-	sudo snap install go --classic \
+	echo "##### Installing llvm / clang / jq ..."; \
+	sudo apt-get install -y llvm clang jq; \
+	echo ""; \
+	echo "#### Installing Golang ..."; \
+	sudo snap install go --classic; \
 
 .PHONY: dotfiles
 dotfiles: ## Create symlinks for dotfiles
@@ -44,12 +45,13 @@ new: ## Configure a new setup environment from scratch
 	sudo apt-get -y update; \
 	sudo apt-get -y upgrade; \
 	make dotfiles; \
-	# make tools; \
-	# make shell; \
+	make tools; \
+	make deps; \
+	# make zsh; \
+	# make omp; \
 
 .PHONY: tools
 tools: ## Install tools
-	clear; \
 	echo "##### Setting up tools... #####"; \
 	echo "##### Installing bat (batcat) / fzf / lsd ... #####"; \
 	sudo apt-get -y install bat fzf lsd; \
