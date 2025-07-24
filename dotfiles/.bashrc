@@ -49,8 +49,8 @@ HISTFILESIZE=2000
 
 ### Alias definitions
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f ~/.shell_aliases ]; then
+    . ~/.shell_aliases
 fi
 
 ### fzf
