@@ -27,8 +27,8 @@ Contains a number of different scripts, mainly for configuring environments and 
 #### Linux
 
 ```shell
-# To set everything up from scratch
-make all
+# To set up a new environment from scratch
+make new
 
 # To list available options
 make help
@@ -44,11 +44,7 @@ make help
 
 #### Oh-My-Posh
 
-`oh-my-posh/kamp.omp.yaml`
-
-#### Oh-My-Zsh
-
-`dotfiles/.oh-my-zsh/custom/themes/kamp.zsh-theme`
+`.config/oh-my-posh/kamp.omp.yaml`
 
 ### Settings
 
