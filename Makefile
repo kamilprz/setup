@@ -4,55 +4,7 @@ DEFAULT_GOAL := help
 help: ## Display help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-##@ Shell
-
-.PHONY: all
-all: ## Configure shell, tools, dotfiles etc.
-	clear; \
-	echo ""; \
-	echo "##### Running apt-get update and upgrade... #####"; \
-	sudo apt-get -y update; \
-	sudo apt-get -y upgrade; \
-	# make tools; \
-	# make dotfiles; \
-	# make shell; \
-
-.PHONY: deps
-deps: ## Install dependencies
-	echo "##### Installing llvm / clang / jq ..." \
-	sudo apt-get install -y llvm clang jq \
-	echo "#### Installing Golang ..." \
-	sudo snap install go --classic \
-
-.PHONY: tools
-tools: ## Install tools
-	clear; \
-	echo "##### Setting up tools... #####"; \
-	echo "##### Installing bat (batcat) / fzf / lsd ... #####"; \
-	sudo apt-get -y install bat fzf lsd; \
-
-.PHONY: shell
-shell: ## Configure Oh-my-posh
-	bash ./scripts/ubuntu/omp.sh ./themes/kamp.omp.yaml
-
-.PHONY: dotfiles
-dotfiles: ## Create symlinks for dotfiles
-	ln -s $(realpath ./dotfiles/.bashrc)           	~/.bashrc; \
-	ln -s $(realpath ./dotfiles/.bash_aliases)     	~/.bash_aliases; \
-	ln -s $(realpath ./dotfiles/.gitconfig)        	~/.gitconfig; \
-	ln -s $(realpath ./dotfiles/.config)        	~/.config;
-
-##@ Git
-
-.PHONY: ghcr
-ghcr: ## Configure GHCR credentials
-	bash ./scripts/ubuntu/configure_ghcr.sh
-
-.PHONY: gpg
-gpg: ## Configure GPG signing key
-	bash ./scripts/ubuntu/configure_gpg.sh
-
-##@ AKS
+##@ Azure
 
 .PHONY: aks-cluster
 aks-cluster: ## Recreate an AKS Cluster
@@ -61,28 +13,62 @@ aks-cluster: ## Recreate an AKS Cluster
 	echo "First running tofu destroy..."; \
 	cd ./scripts/az/aks && tofu destroy && bash create.sh && cd -
 
+##@ Git
+
+.PHONY: ghcr
+ghcr: ## Configure GHCR credentials
+	bash ./scripts/linux/ghcr.sh
+
+.PHONY: gpg
+gpg: ## Configure GPG signing key
+	bash ./scripts/linux/gpg.sh
+
+##@ Setup
+
+.PHONY: deps
+deps: ## Install dependencies
+	echo "##### Installing llvm / clang / jq ..." \
+	sudo apt-get install -y llvm clang jq \
+	echo "#### Installing Golang ..." \
+	sudo snap install go --classic \
+
+.PHONY: dotfiles
+dotfiles: ## Create symlinks for dotfiles
+	bash ./scripts/linux/dotfiles.sh
+
+.PHONY: new
+new: ## Configure a new setup environment from scratch
+	clear; \
+	echo ""; \
+	echo "##### Running apt-get update and upgrade... #####"; \
+	sudo apt-get -y update; \
+	sudo apt-get -y upgrade; \
+	make dotfiles; \
+	# make tools; \
+	# make shell; \
+
+.PHONY: tools
+tools: ## Install tools
+	clear; \
+	echo "##### Setting up tools... #####"; \
+	echo "##### Installing bat (batcat) / fzf / lsd ... #####"; \
+	sudo apt-get -y install bat fzf lsd; \
+
+##@ Shell
+
+.PHONY: omp
+omp: ## Configure Oh-my-posh
+	bash ./scripts/linux/omp.sh ./dotfiles/.config/oh-my-posh/kamp.omp.yaml
+
+.PHONY: zsh
+zsh: ## Configure ZSH
+# TODO
+
 ##@ Test
-
-# https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli
-store-demo: ## Deploy Store Demo
-	kubectl create ns pets; \
-	kubectl apply -f ./scripts/az/aks/store-demo/aks-store.yaml -n pets; \
-	bash ./scripts/az/aks/store-demo/get-ip.sh;
-	
-delete-store-demo:
-	kubectl delete -f ./scripts/az/aks/store-demo/aks-store.yaml -n pets
-
-get-retina-capture: ## Download capture file from cluster
-	@echo "Starting retina capture retrieval..."
-	@if [ -z "$(FILE)" ]; then \
-		echo "Error: Capture tarball name is required."; \
-		exit 1; \
-	fi
-	kubectl apply -f ./scripts/az/aks/middleware/retrieve.yaml && kubectl cp default/retriever:/mnt/data/retina/captures/$(FILE) ~/src/output/$(FILE); \
-	cd ~/src/output && tar -xvf $(FILE);
 
 remove-dotfiles: ## Remove symlinks for dotfiles
 	rm ~/.bashrc; \
-	rm ~/.bash_aliases; \
+	rm ~/.zshrc; \
+	rm ~/.shell_aliases; \
+	rm -rf ~/.config; \
 	rm ~/.gitconfig; \
-	rm -rf ~/.config;
