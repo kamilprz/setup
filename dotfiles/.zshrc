@@ -1,12 +1,10 @@
 # Set up directories for config
 ZSH_PLUGINS_DIR="$HOME/.config/zsh/plugins"
-mkdir -p "$ZSH_PLUGINS_DIR"
-
-CACHEDIR="$HOME/.cache/zsh/"
-mkdir -p "$CACHEDIR"
+ZSH_CACHE_DIR="$HOME/.cache/zsh/"
+mkdir -p "$ZSH_CACHE_DIR"
 
 # Exports
-export ZSH_COMPDUMP=$CACHEDIR/.zcompdump-$HOST
+export ZSH_COMPDUMP=$ZSH_CACHE_DIR/.zcompdump-$HOST
 export TERM=xterm-256color
 export PATH=$PATH:/home/$USER/bin
 export PATH=$PATH:/usr/local/go/bin
@@ -15,7 +13,7 @@ export GPG_TTY=$(tty)
 export KUBECONFIG=/mnt/c/Users/$USER/.kube/config
 
 # History
-HISTFILE="$CACHEDIR/history"
+HISTFILE="$ZSH_CACHE_DIR/history"
 HISTSIZE=5000
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
@@ -39,12 +37,12 @@ bindkey '^o' cpbuffer
 
 # Plugins
 source "$ZSH_PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
-source "$ZSH_PLUGINS_DIR/zsh-autocompletions/zsh-autocompletions.plugin.zsh"
+source "$ZSH_PLUGINS_DIR/zsh-completions/zsh-completions.plugin.zsh"
 source "$ZSH_PLUGINS_DIR/fzf-tab/fzf-tab.plugin.zsh"
 
 # Completions
 ## Load
-autoload -U compinit && compinit
+autoload -U compinit && compinit -d "$ZSH_COMPDUMP"
 ## Kubectl completion
 if (( $+commands[kubectl] )); then
   source <(kubectl completion zsh)
