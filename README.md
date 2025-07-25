@@ -46,12 +46,12 @@ make help
 
 `.config/oh-my-posh/kamp.omp.yaml`
 
-### Settings
+### Windows Settings
 
 Contains some personalized settings for the Windows Terminal.
 
 In the future it would be nice to symlink this file with the settings file, but for now a good old copy paste job is required.
 
-### Windows Cursor
+#### Cursor
 
 Contains `cyan` cursor files because could not find a programmable way to change the colour of the cursor through Powershell. By storing them here at least it is possible to copy them over and set the cursor that way.
