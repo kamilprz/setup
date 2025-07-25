@@ -1,3 +1,4 @@
+SHELL := bash
 DEFAULT_GOAL := help
 
 .PHONY: help
@@ -40,6 +41,17 @@ dotfiles: ## Create symlinks for dotfiles
 .PHONY: new
 new: ## Configure a new setup environment from scratch
 	clear; \
+	echo "##### NOTE #####"; \
+	echo "If you decide to change your shell, open a new terminal instance and come back to this script from there."; \
+	echo "Bash: chbash"; \
+	echo "Zsh:  chzsh  (To install: sudo apt install zsh)"; \
+	echo ""; \
+	read -p "Your SHELL is $$(which $$SHELL). Do you want to proceed? (Y/n) " -n 1 -r; \
+    echo; \
+    if [[ ! $$REPLY =~ ^[Yy]$$ ]]; then \
+        echo "Aborting."; \
+        exit 1; \
+    fi; \
 	echo ""; \
 	echo "##### Running apt-get update and upgrade... #####"; \
 	sudo apt-get -y update; \
@@ -47,8 +59,7 @@ new: ## Configure a new setup environment from scratch
 	make dotfiles; \
 	make tools; \
 	make deps; \
-	# make omp; \
-	# make zsh; \ 
+	make omp; \
 
 .PHONY: tools
 tools: ## Install tools
@@ -59,24 +70,9 @@ tools: ## Install tools
 ##@ Shell
 
 .PHONY: omp
-omp: ## Configure Oh-my-posh
+omp: ## Set up Oh-my-posh theme
 	bash ./scripts/linux/omp.sh ./dotfiles/.config/oh-my-posh/kamp.omp.yaml
-
-.PHONY: zsh
-zsh: ## Configure ZSH
-	echo "##### Setting up zsh... #####"; \
-	echo "##### Changes will apply in a new shell instance. #####"; \
-	sudo apt install zsh; \
-	sudo chsh -s /usr/bin/zsh; \
-	exec zsh; \
-
-.PHONY: bash
-bash: ## Configure Bash
-	echo "##### Switching to Bash... #####"; \
-	echo "##### Changes will apply in a new shell instance. #####"; \
-	sudo chsh -s /usr/bin/bash; \
-	exec bash; \
-
+	
 ##@ Test
 
 remove-dotfiles: ## Remove symlinks for dotfiles
