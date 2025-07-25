@@ -13,5 +13,10 @@ alias zshrc="source ~/.zshrc"
 alias chbash="chsh -s /usr/bin/bash && echo \"Launch a new terminal instance to use BASH.\""
 alias chzsh="chsh -s /usr/bin/zsh && echo \"Launch a new terminal instance to use ZSH.\""
 alias setup="cd ~/src/setup"
+# Bookmarks
+alias ba="bash ~/src/setup/scripts/linux/bookmarks.sh add"
+alias bf="bash ~/src/setup/scripts/linux/bookmarks.sh find"
+alias br="bash ~/src/setup/scripts/linux/bookmarks.sh remove"
+alias bh="bash ~/src/setup/scripts/linux/bookmarks.sh help"
 # Kubernetes
 alias k="kubectl"
