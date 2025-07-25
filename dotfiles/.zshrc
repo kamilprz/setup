@@ -6,8 +6,9 @@ mkdir -p "$ZSH_CACHE_DIR"
 # Exports
 export ZSH_COMPDUMP=$ZSH_CACHE_DIR/.zcompdump-$HOST
 export TERM=xterm-256color
-export PATH=$PATH:/home/$USER/bin
+export PATH=$PATH:$HOME/bin
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/snap/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export GPG_TTY=$(tty)
 export KUBECONFIG=/mnt/c/Users/$USER/.kube/config
