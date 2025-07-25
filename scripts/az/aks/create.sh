@@ -72,10 +72,17 @@ az aks get-credentials --resource-group $RESOURCE_GROUP_NAME --name $PREFIX-aks 
 read -e -i "$PREFIX" -p "Enter Username (for exporting kubeconfig): " USERNAME
 USERNAME="${USERNAME:-default_username}"
 
-# Add kubectl path to .bashrc if not already added
-if ! grep -q "export KUBECONFIG=/mnt/c/Users/$USERNAME/.kube/config" ~/.bashrc; then
-    echo "export KUBECONFIG=/mnt/c/Users/$USERNAME/.kube/config" >> ~/.bashrc
-    echo "Added kubectl path to .bashrc"
+# Bash by default
+SHRC_FILE="$HOME/.bashrc"
+# If current shell is ZSH, use .zshrc
+if [[ "$(which $SHELL)" == *"zsh"* ]]; then
+    SHRC_FILE="$HOME/.zshrc"
+fi
+
+# Add kubectl path to .*shrc if not already added
+if ! grep -q "export KUBECONFIG=/mnt/c/Users/.*/.kube/config" $SHRC_FILE; then
+    echo "export KUBECONFIG=/mnt/c/Users/$USERNAME/.kube/config" >> $SHRC_FILE
+    echo "Added kubectl path to $SHRC_FILE"
 else
-    echo "kubectl path already present in .bashrc"
+    echo "kubectl path already present in .$SHRC_FILE"
 fi

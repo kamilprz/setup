@@ -29,8 +29,22 @@ echo "##### Navigate to the repo where you want to sign commits and run the foll
 echo "git config user.signingkey $GPG_KEY"
 echo "git config --add commit.gpgsign true"
 
-# Add GPG_TTY (set to current terminal) to .bashrc if not already added
-# This ensures that GPG can correctly prompt for passphrases and other input when running in a terminal session
-[ -f ~/.bashrc ] && echo -e '\nexport GPG_TTY=$(tty)' >> ~/.bashrc
+# Bash by default
+SHRC_FILE="$HOME/.bashrc"
+# If current shell is ZSH, use .zshrc
+if [[ "$(which $SHELL)" == *"zsh"* ]]; then
+    SHRC_FILE="$HOME/.zshrc"
+fi
 
-source ~/.bashrc
+# Add GPG_TTY (set to current terminal) to .*shrc if not already added
+# This ensures that GPG can correctly prompt for passphrases and other input when running in a terminal session
+if [ -f $SHRC_FILE ]; then
+    if ! grep -q "export GPG_TTY=\$(tty)" $SHRC_FILE; then
+        echo -e '\nexport GPG_TTY=$(tty)' >> $SHRC_FILE
+        echo "Added GPG_TTY to $SHRC_FILE"
+    else
+        echo "GPG_TTY already present in $SHRC_FILE"
+    fi
+fi
+
+source $SHRC_FILE
