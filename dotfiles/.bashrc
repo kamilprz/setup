@@ -41,7 +41,8 @@ ff() {
 export PATH=$PATH:/home/$USER/src/retina/artifacts
 export TERM=xterm-256color
 export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:/home/$USER/bin
+export PATH=$PATH:/snap/bin
+export PATH=$PATH:$HOME/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export GPG_TTY=$(tty)
 export KUBECONFIG=/mnt/c/Users/$USER/.kube/config
