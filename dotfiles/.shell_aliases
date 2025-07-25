@@ -3,10 +3,15 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias tree="ls --tree"
 alias grep='grep --color=auto'
+# Git
 alias glog="git log -25"
 alias gs="git status"
 alias uncommit="git reset --soft HEAD~1"
+# Shell
 alias bashrc="source ~/.bashrc"
 alias zshrc="source ~/.zshrc"
+alias chbash="chsh -s /usr/bin/bash && echo \"Launch a new terminal instance to use BASH.\""
+alias chzsh="chsh -s /usr/bin/zsh && echo \"Launch a new terminal instance to use ZSH.\""
 alias setup="cd ~/src/setup"
+# Kubernetes
 alias k="kubectl"
