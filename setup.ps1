@@ -1,5 +1,12 @@
 # #### RUN ME AS ADMIN
 
+# set up OMP on powershell
+
+# set up WSL with systemd
+# install nix package manager
+
+
+
 # #### This script configures Windows settings
 
 .\scripts\windows\clipboard-history.ps1

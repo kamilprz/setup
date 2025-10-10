@@ -1,6 +1,8 @@
 [user]
 	email = kamil.prz@gmail.com
+    # email = kamilp@microsoft.com
 	name = Kamil
+	signingkey = BE1C6AC4AA217345
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential

@@ -24,6 +24,12 @@ ghcr: ## Configure GHCR credentials
 gpg: ## Configure GPG signing key
 	bash ./scripts/linux/gpg.sh
 
+.PHONY: git
+git: ## Configure git
+	sudo apt-get install -y git; \
+	make ghcr; \
+	make gpg; \
+
 ##@ Setup
 
 .PHONY: deps
@@ -60,6 +66,7 @@ new: ## Configure a new setup environment from scratch
 	make tools; \
 	make deps; \
 	make omp; \
+	# make git; \
 
 .PHONY: tools
 tools: ## Install tools

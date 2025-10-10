@@ -12,6 +12,7 @@ export PATH=$PATH:/snap/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export GPG_TTY=$(tty)
 export KUBECONFIG=/mnt/c/Users/$USER/.kube/config
+# export PATH=$PATH:/home/$USER/src/retina/artifacts
 
 # History
 HISTFILE="$ZSH_CACHE_DIR/history"

@@ -18,5 +18,6 @@ alias ba="bash ~/src/setup/scripts/linux/bookmarks.sh add"
 alias bf="bash ~/src/setup/scripts/linux/bookmarks.sh find"
 alias br="bash ~/src/setup/scripts/linux/bookmarks.sh remove"
 alias bh="bash ~/src/setup/scripts/linux/bookmarks.sh help"
+alias bimport="bash ~/src/setup/scripts/linux/bookmarks.sh import"
 # Kubernetes
 alias k="kubectl"
