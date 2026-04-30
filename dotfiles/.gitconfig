@@ -1,13 +1,9 @@
 [user]
 	email = kamil.prz@gmail.com
-    # email = kamilp@microsoft.com
-	name = Kamil
-	signingkey = BE1C6AC4AA217345
+	name = Kamil Przepiorowski
 [credential "https://github.com"]
-	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [push]
 	autoSetupRemote = true
@@ -15,5 +11,3 @@
 	date = relative
 [format]
 	pretty = format:%C(auto,yellow)%h%C(auto,magenta)% G? %C(auto,cyan)%>(12,trunc)%ad %C(auto,green)%<(10,trunc)%aN%C(auto,reset)%s%C(auto,red)% gD% D
-[credential]
-	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
