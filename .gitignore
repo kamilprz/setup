@@ -2,3 +2,4 @@ terraform.tfvars
 .terraform*
 terraform.tfstate*
 dotfiles/.config/go/telemetry
+dotfiles/.config/iterm2
